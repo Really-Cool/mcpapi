@@ -8,26 +8,77 @@ MCP API 是一个基于 Next.js 构建的 API 服务，提供 MCP (Model Context
 
 ```
 mcpapi/
-├── app/                    # Next.js 应用目录
-│   ├── api/                # API 路由
-│   │   ├── mcp/            # MCP 搜索 API
-│   │   │   ├── route.ts    # MCP 搜索路由处理
-│   │   │   └── utils.ts    # MCP 工具函数
-│   │   ├── recommend/      # 推荐 API
-│   │   │   └── route.ts    # 推荐路由处理
-│   │   └── services/       # 服务层
-│   │       ├── mcp-service.ts  # MCP 数据服务
-│   │       └── llm-service.ts  # LLM 推荐服务
-│   └── page.tsx            # 前端页面
-├── data/                   # 数据文件
-│   └── mcp-data.tsx        # MCP 项目数据
-├── types/                  # 类型定义
-│   └── mcp.ts              # MCP 相关类型
-├── env.example             # 环境变量示例
-├── package.json            # 项目依赖
-└── README.md               # 项目文档
+├── src/                           # 所有源代码放在 src 目录下
+│   ├── app/                       # Next.js App Router 页面
+│   │   ├── api/                   # API 路由
+│   │   │   ├── mcp/
+│   │   │   └── recommend/
+│   │   └── page.tsx               # 主页
+│   ├── components/                # 组件目录
+│   │   ├── common/                # 通用组件
+│   │   │   ├── error-boundary.tsx
+│   │   │   └── theme-provider.tsx
+│   │   ├── layout/                # 布局组件
+│   │   │   ├── header.tsx
+│   │   │   └── main-layout.tsx
+│   │   ├── search/                # 搜索相关组件
+│   │   │   ├── search-bar.tsx
+│   │   │   └── search-results.tsx
+│   │   ├── mcp/                   # MCP 相关组件
+│   │   │   ├── mcp-card.tsx
+│   │   │   ├── mcp-section.tsx
+│   │   │   └── recommendations-section.tsx
+│   │   └── ui/                    # UI 组件库
+│   │       ├── button.tsx
+│   │       └── ...
+│   ├── hooks/                     # 所有自定义 hooks
+│   │   ├── ui/                    # UI 相关 hooks
+│   │   │   ├── use-mobile.tsx
+│   │   │   └── use-toast.ts
+│   │   ├── form/                  # 表单相关 hooks
+│   │   │   └── use-form.ts
+│   │   └── mcp/                   # MCP 相关 hooks
+│   │       ├── use-infinite-scroll.ts
+│   │       ├── use-mcp-items.ts
+│   │       └── use-mcp-search.ts
+│   ├── contexts/                  # 上下文
+│   │   └── mcp-context.tsx
+│   ├── services/                  # 服务层
+│   │   ├── api-client.ts
+│   │   ├── icon-service.ts
+│   │   ├── llm-service.ts
+│   │   └── mcp-service.ts
+│   ├── utils/                     # 工具函数
+│   │   ├── constants/             # 常量
+│   │   │   └── theme.ts
+│   │   └── helpers/               # 辅助函数
+│   │       └── theme-utils.ts
+│   ├── types/                     # 类型定义
+│   │   ├── api.ts                 # API 相关类型
+│   │   ├── mcp.ts                 # MCP 相关类型
+│   │   └── common.ts              # 通用类型
+│   └── data/                      # 静态数据
+│       └── mcp-data.tsx
+├── public/                        # 静态资源
+├── tests/                         # 测试文件集中管理
+│   ├── unit/                      # 单元测试
+│   │   ├── components/            # 组件测试
+│   │   ├── hooks/                 # Hooks 测试
+│   │   └── services/              # 服务测试
+│   ├── integration/               # 集成测试
+│   ├── e2e/                       # 端到端测试
+│   └── setup/                     # 测试配置
+│       ├── jest.config.js
+│       ├── jest.setup.js
+│       └── babel.config.jest.js
+├── styles/                        # 全局样式
+├── .next/                         # Next.js 构建输出
+├── node_modules/                  # 依赖
+├── package.json                   # 项目配置
+├── tsconfig.json                  # TypeScript 配置
+├── tailwind.config.ts             # Tailwind 配置
+└── next.config.js                 # Next.js 配置
 ```
-
 ### 核心组件
 
 1. **MCP API** (`/api/mcp/route.ts`)
