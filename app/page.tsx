@@ -13,15 +13,17 @@ import { useMCPSearch } from '@/hooks/use-mcp-search';
 /**
  * Home page component that displays MCP sections and search functionality
  * Includes user collections (favorites and recently viewed) when not searching
+ * Supports infinite scrolling for search results
  */
 export default function Home() {
-  // Use our custom hook for search functionality
+  // Use our custom hook for search functionality with infinite scrolling
   const { 
     query, 
     searchState, 
     showSections, 
     search, 
-    resetSearch 
+    resetSearch,
+    loadMoreResults
   } = useMCPSearch();
 
   // Determine if we're currently searching
@@ -40,6 +42,11 @@ export default function Home() {
     ? searchState.data.explanation 
     : '';
 
+  // Check if there are more results to load
+  const hasMore = searchState.status === 'success' 
+    ? searchState.data.hasMore 
+    : false;
+
   return (
     <MainLayout>
       <HeroSection onSearch={search} />
@@ -52,6 +59,8 @@ export default function Home() {
           isLoading={isSearching}
           query={query}
           onReset={resetSearch}
+          hasMore={hasMore}
+          onLoadMore={loadMoreResults}
         />
       ) : (
         <>

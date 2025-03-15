@@ -3,8 +3,11 @@ import { MCPCard } from "./mcp-card";
 import { SectionGrid } from "./section-grid";
 import { X, Search } from "lucide-react";
 import { Loading } from "@/components/ui/loading";
-import { theme } from "@/lib/constants/theme";
+import { getTheme } from "@/lib/constants/theme";
 import { RecommendationsSection } from "./recommendations-section";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
+import { useMCPContext } from "@/contexts/mcp-context";
+import { useMemo, useRef } from "react";
 
 export interface SearchResultsProps {
   results: MCPItem[];
@@ -13,11 +16,14 @@ export interface SearchResultsProps {
   isLoading?: boolean;
   query?: string;
   onReset?: () => void;
+  hasMore?: boolean;
+  onLoadMore?: () => Promise<void>;
 }
 
 /**
  * SearchResults component displays search results and recommendations
  * Shows loading state, empty state, or results based on the current state
+ * Supports infinite scrolling for loading more results
  */
 export function SearchResults({
   results,
@@ -25,10 +31,32 @@ export function SearchResults({
   explanation = "",
   isLoading = false,
   query = "",
-  onReset
+  onReset,
+  hasMore = false,
+  onLoadMore = async () => {}
 }: SearchResultsProps) {
-  // Show loading state
-  if (isLoading) {
+  const { state } = useMCPContext();
+  const { darkMode } = state;
+  
+  // Get the current theme based on dark mode state
+  const currentTheme = useMemo(() => 
+    getTheme(darkMode ? 'dark' : 'light'),
+    [darkMode]
+  );
+
+  // Set up infinite scroll
+  const {
+    observerRef,
+    isLoading: isLoadingMore,
+    hasMore: hasMoreToLoad
+  } = useInfiniteScroll(
+    onLoadMore,
+    hasMore,
+    { threshold: 0.5, rootMargin: '0px 0px 300px 0px' }
+  );
+
+  // Show loading state for initial load
+  if (isLoading && !results.length) {
     return (
       <div className="my-8 flex justify-center">
         <Loading size={32} text="思考中..." />
@@ -40,7 +68,7 @@ export function SearchResults({
   if (!results.length && !recommendations.length) {
     return (
       <div className="my-8 text-center">
-        <p style={{ color: theme.colors.text.secondary }}>
+        <p style={{ color: currentTheme.colors.text.secondary }}>
           {query ? `没有找到与"${query}"相关的MCP服务器` : "请输入搜索词以推荐MCP服务器"}
         </p>
         {query && onReset && (
@@ -48,8 +76,8 @@ export function SearchResults({
             onClick={onReset}
             className="mt-4 px-4 py-2 rounded flex items-center gap-2 mx-auto"
             style={{ 
-              backgroundColor: theme.colors.background.secondary,
-              color: theme.colors.text.secondary
+              backgroundColor: currentTheme.colors.background.secondary,
+              color: currentTheme.colors.text.secondary
             }}
           >
             <X size={16} />
@@ -64,8 +92,8 @@ export function SearchResults({
     <div className="my-8">
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-2">
-          <Search size={20} style={{ color: theme.colors.text.accent }} />
-          <h2 className="text-xl font-semibold" style={{ color: theme.colors.text.primary }}>
+          <Search size={20} style={{ color: currentTheme.colors.text.accent }} />
+          <h2 className="text-xl font-semibold" style={{ color: currentTheme.colors.text.primary }}>
             {query ? `"${query}" 的搜索结果` : "搜索结果"}
           </h2>
         </div>
@@ -74,8 +102,8 @@ export function SearchResults({
             onClick={onReset}
             className="flex items-center gap-1 px-3 py-1 rounded transition-colors"
             style={{ 
-              backgroundColor: theme.colors.background.secondary,
-              color: theme.colors.text.secondary
+              backgroundColor: currentTheme.colors.background.secondary,
+              color: currentTheme.colors.text.secondary
             }}
             aria-label="清除搜索结果"
           >
@@ -98,7 +126,7 @@ export function SearchResults({
         <section className="mb-8">
           <h3 
             className="text-lg font-semibold mb-4" 
-            style={{ color: theme.colors.text.primary }}
+            style={{ color: currentTheme.colors.text.primary }}
           >
             搜索结果
           </h3>
@@ -118,6 +146,19 @@ export function SearchResults({
               />
             ))}
           </SectionGrid>
+          
+          {/* Infinite scroll loading indicator */}
+          {hasMore && (
+            <div 
+              ref={observerRef}
+              className="w-full flex justify-center py-4"
+              data-testid="load-more-trigger"
+            >
+              {isLoadingMore && (
+                <Loading size={24} text="加载更多..." />
+              )}
+            </div>
+          )}
         </section>
       )}
     </div>
