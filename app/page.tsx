@@ -43,7 +43,7 @@ export default function Home() {
         },
         body: JSON.stringify({
           query,
-          items: searchData.items, // 将搜索结果传递给LLM进行精排
+          items: searchData.items,
         }),
       });
 
