@@ -10,6 +10,10 @@ export interface MCPSectionProps {
   showNavigation?: boolean;
 }
 
+/**
+ * MCPSection component displays a section of MCP cards with pagination
+ * It handles the navigation between pages and renders the appropriate items
+ */
 export function MCPSection({ 
   section, 
   showViewAll = true, 
@@ -27,6 +31,7 @@ export function MCPSection({
     setCurrentPage((prev) => (prev < totalPages - 1 ? prev + 1 : prev));
   };
 
+  // Calculate the items to display on the current page
   const visibleItems = section.items.slice(
     currentPage * itemsPerPage,
     (currentPage + 1) * itemsPerPage
@@ -52,6 +57,7 @@ export function MCPSection({
             packageName={item.packageName}
             description={item.description}
             icon={item.icon}
+            iconName={item.iconName}
             downloads={item.downloads}
             isActive={item.isActive}
             githubLink={item.githubLink}

@@ -38,6 +38,7 @@ export default function Home() {
       const searchResponse = await fetch(`/api/mcp?query=${encodeURIComponent(query)}`);
       const searchData = await searchResponse.json();
       setSearchResults(searchData.items || []);
+      console.log('搜索结束');
       const recommendResponse = await fetch('/api/recommend', {
         method: 'POST',
         headers: {

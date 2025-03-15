@@ -12,18 +12,21 @@ export interface MCPCardProps {
   githubLink?: string;
 }
 
-/** 
- * 1. Original React Element: When defined in mcp-data.tsx, your icons are proper React elements like:
- * <FileText className="h-5 w-5" />
- * 2. After JSON Serialization/Deserialization: The icon becomes a plain JavaScript object that looks something like:
- * {
-    "type": {},
-    "props": {
-      "className": "h-5 w-5",
-      "children": "📄" // For some icons, especially custom spans
-    }
-  }
-  3. The Problem: This object is no longer a valid React element that can be rendered directly. It's just a data structure that resembles one.
+/**
+ * MCPCard component displays information about a Model Context Protocol package
+ * 
+ * Notes about icon handling:
+ * 1. Original React Element: When defined in mcp-data.tsx, icons are proper React elements like:
+ *    <FileText className="h-5 w-5" />
+ * 2. After JSON Serialization/Deserialization: The icon becomes a plain JavaScript object:
+ *    {
+ *      "type": {},
+ *      "props": {
+ *        "className": "h-5 w-5",
+ *        "children": "📄" // For some icons, especially custom spans
+ *      }
+ *    }
+ * 3. The renderIcon function handles these different formats appropriately
  */
 export function MCPCard({
   title,
@@ -35,27 +38,32 @@ export function MCPCard({
   isActive = false,
   githubLink
 }: MCPCardProps) {
-  // 渲染图标
-  const renderIcon = (icon: ReactNode, iconName?: string) => {
-    // 检查是否为有效的 React 元素或字符串
+  /**
+   * Renders the appropriate icon based on the provided icon and iconName props
+   * Handles different formats of icon data that might come from API responses
+   */
+  const renderIcon = (icon: ReactNode, iconName?: string): ReactNode => {
+    // If no icon is provided, use iconName or default emoji
     if (icon === null || icon === undefined) {
-      return iconName || "📦"; // 使用 iconName 或默认图标
+      return iconName || "📦";
     }
-    console.log(`icon: ${JSON.stringify(icon)}`);
-    console.log(`iconName: ${iconName}`);
-    // 如果是对象但不是有效的 React 元素（比如从 API 返回的序列化对象）
-    if (typeof icon === 'object' && 
-        Object.prototype.toString.call(icon) !== '[object Symbol]' && 
-        !('$$typeof' in (icon as any))) {
-      if(icon.props && icon.props.children) {
-        console.log('使用 icon props children');
-        return icon.props.children;
+    
+    // Handle serialized React elements (from API responses)
+    if (
+      typeof icon === 'object' && 
+      Object.prototype.toString.call(icon) !== '[object Symbol]' && 
+      !('$$typeof' in (icon as any))
+    ) {
+      // Try to extract children from props if available
+      if (icon && 'props' in (icon as any) && (icon as any).props?.children) {
+        return (icon as any).props.children;
       }
-      console.log('使用 iconName');
-      return iconName || "📦"; // 使用 iconName 或默认图标
+      
+      // Fallback to iconName or default
+      return iconName || "📦";
     }
-    console.log('使用 icon');
-    // 返回有效的图标
+    
+    // Return the valid React element
     return icon;
   };
 
