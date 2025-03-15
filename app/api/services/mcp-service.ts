@@ -81,7 +81,7 @@ export class MCPService {
     return recommendedItems.map(item => {
       const originalItem = allItems.find(original => original.id === item.id);
       if (originalItem) {
-        console.log('找到匹配项2:', originalItem.id);
+        console.log('找到匹配项:', originalItem.id);
         return originalItem;
       } else {
         // 如果找不到匹配项，确保返回的对象符合前端组件期望的格式

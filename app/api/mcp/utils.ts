@@ -11,6 +11,7 @@ export interface MCPItemForRecommend {
   title: string;
   packageName?: string;
   description: string;
+  iconName?: string; // 添加图标名称字段
 }
 
 /**
@@ -23,7 +24,8 @@ export function convertToSerializable(item: MCPItem | any): MCPItemForRecommend 
     id, 
     title,
     packageName,
-    description
+    description,
+    iconName = "📦" // 使用默认图标名称如果没有提供
   } = item as MCPItem;
   
   // 创建精简版本，使用iconName替代icon
@@ -31,6 +33,7 @@ export function convertToSerializable(item: MCPItem | any): MCPItemForRecommend 
     id,
     title,
     packageName,
-    description
+    description,
+    iconName
   };
 }

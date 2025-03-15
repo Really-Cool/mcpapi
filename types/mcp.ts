@@ -6,6 +6,7 @@ export interface MCPItem {
   packageName: string;
   description: string;
   icon: ReactNode;
+  iconName?: string; 
   downloads?: string;
   isActive?: boolean;
   githubLink?: string;
