@@ -4,13 +4,15 @@ import { mcpSections } from '@/data/mcp-data';
 import {
   MainLayout,
   HeroSection,
-  MCPSection
+  MCPSection,
+  UserCollections
 } from '@/components/mcpapi';
 import { SearchResults } from '@/components/mcpapi/search-results';
 import { useMCPSearch } from '@/hooks/use-mcp-search';
 
 /**
  * Home page component that displays MCP sections and search functionality
+ * Includes user collections (favorites and recently viewed) when not searching
  */
 export default function Home() {
   // Use our custom hook for search functionality
@@ -52,14 +54,20 @@ export default function Home() {
           onReset={resetSearch}
         />
       ) : (
-        mcpSections.map((section) => (
-          <MCPSection 
-            key={section.id}
-            section={section}
-            showViewAll={section.id !== 'featured'}
-            showNavigation={section.id !== 'featured'}
-          />
-        ))
+        <>
+          {/* User collections - favorites and recently viewed */}
+          <UserCollections maxItems={4} />
+          
+          {/* MCP sections from data */}
+          {mcpSections.map((section) => (
+            <MCPSection 
+              key={section.id}
+              section={section}
+              showViewAll={section.id !== 'featured'}
+              showNavigation={section.id !== 'featured'}
+            />
+          ))}
+        </>
       )}
     </MainLayout>
   );

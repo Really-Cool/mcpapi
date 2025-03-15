@@ -1,9 +1,10 @@
 import { MCPItem } from "@/types/mcp";
 import { MCPCard } from "./mcp-card";
 import { SectionGrid } from "./section-grid";
-import { X } from "lucide-react";
+import { X, Search } from "lucide-react";
 import { Loading } from "@/components/ui/loading";
 import { theme } from "@/lib/constants/theme";
+import { RecommendationsSection } from "./recommendations-section";
 
 export interface SearchResultsProps {
   results: MCPItem[];
@@ -45,13 +46,14 @@ export function SearchResults({
         {query && onReset && (
           <button 
             onClick={onReset}
-            className="mt-4 px-4 py-2 rounded hover:bg-[#3a3533] transition-colors"
+            className="mt-4 px-4 py-2 rounded flex items-center gap-2 mx-auto"
             style={{ 
               backgroundColor: theme.colors.background.secondary,
               color: theme.colors.text.secondary
             }}
           >
-            返回首页
+            <X size={16} />
+            <span>返回首页</span>
           </button>
         )}
       </div>
@@ -61,9 +63,12 @@ export function SearchResults({
   return (
     <div className="my-8">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-semibold" style={{ color: theme.colors.text.primary }}>
-          {query ? `"${query}" 的搜索结果` : "搜索结果"}
-        </h2>
+        <div className="flex items-center gap-2">
+          <Search size={20} style={{ color: theme.colors.text.accent }} />
+          <h2 className="text-xl font-semibold" style={{ color: theme.colors.text.primary }}>
+            {query ? `"${query}" 的搜索结果` : "搜索结果"}
+          </h2>
+        </div>
         {onReset && (
           <button 
             onClick={onReset}
@@ -74,49 +79,34 @@ export function SearchResults({
             }}
             aria-label="清除搜索结果"
           >
-            <X className="h-4 w-4" />
+            <X size={16} />
             <span>清除</span>
           </button>
         )}
       </div>
       
+      {/* Use the RecommendationsSection component for recommendations */}
       {recommendations.length > 0 && (
-        <div className="mb-8">
-          <h3 className="text-lg font-semibold mb-4" style={{ color: theme.colors.text.primary }}>
-            推荐的MCP服务器
-          </h3>
-          {explanation && (
-            <p className="mb-4" style={{ color: theme.colors.text.secondary }}>
-              {explanation}
-            </p>
-          )}
-          <SectionGrid>
-            {recommendations.map((item) => (
-              <MCPCard 
-                key={item.id}
-                title={item.title}
-                packageName={item.packageName}
-                description={item.description}
-                icon={item.icon}
-                iconName={item.iconName}
-                downloads={item.downloads}
-                isActive={item.isActive}
-                githubLink={item.githubLink}
-              />
-            ))}
-          </SectionGrid>
-        </div>
+        <RecommendationsSection
+          recommendations={recommendations}
+          title="推荐的MCP服务器"
+          explanation={explanation}
+        />
       )}
 
       {results.length > 0 && (
-        <div>
-          <h3 className="text-lg font-semibold mb-4" style={{ color: theme.colors.text.primary }}>
+        <section className="mb-8">
+          <h3 
+            className="text-lg font-semibold mb-4" 
+            style={{ color: theme.colors.text.primary }}
+          >
             搜索结果
           </h3>
           <SectionGrid>
             {results.map((item) => (
               <MCPCard 
                 key={item.id}
+                id={item.id}
                 title={item.title}
                 packageName={item.packageName}
                 description={item.description}
@@ -128,7 +118,7 @@ export function SearchResults({
               />
             ))}
           </SectionGrid>
-        </div>
+        </section>
       )}
     </div>
   );

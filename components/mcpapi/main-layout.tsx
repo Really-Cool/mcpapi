@@ -1,33 +1,29 @@
-import { ReactNode } from "react";
-import { Header } from "./header";
-import { ErrorBoundary } from "@/components/error-boundary";
-import { MCPProvider } from "@/contexts/mcp-context";
-import { theme } from "@/lib/constants/theme";
+import { ReactNode } from 'react';
+import { Header } from './header';
+import { ErrorBoundary } from '@/components/error-boundary';
+import { MCPProvider } from '@/contexts/mcp-context';
+import { ThemeProvider } from '@/components/ui/theme-provider';
 
 export interface MainLayoutProps {
   children: ReactNode;
 }
 
 /**
- * Main layout component that wraps the entire application
- * Provides error boundary and context provider for global state
+ * MainLayout component provides the overall structure for the application
+ * Includes error boundary, context providers, and header
  */
 export function MainLayout({ children }: MainLayoutProps) {
   return (
     <ErrorBoundary>
       <MCPProvider>
-        <div 
-          className="min-h-screen"
-          style={{ 
-            backgroundColor: theme.colors.background.primary,
-            color: theme.colors.text.primary
-          }}
-        >
-          <Header />
-          <main className="px-6 md:px-12 py-8">
-            {children}
-          </main>
-        </div>
+        <ThemeProvider>
+          <div className="min-h-screen flex flex-col">
+            <Header showGithub />
+            <main className="flex-1 container mx-auto px-4 py-8">
+              {children}
+            </main>
+          </div>
+        </ThemeProvider>
       </MCPProvider>
     </ErrorBoundary>
   );

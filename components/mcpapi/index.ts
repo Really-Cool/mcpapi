@@ -7,3 +7,4 @@ export { MCPSection } from './mcp-section';
 export { HeroSection } from './hero-section';
 export { MainLayout } from './main-layout';
 export { SearchResults } from './search-results';
+export { UserCollections } from './user-collections';
