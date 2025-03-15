@@ -1,79 +1,46 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { mcpSections } from '@/data/mcp-data';
-import { MCPItem } from '@/types/mcp';
 import {
   MainLayout,
   HeroSection,
   MCPSection
 } from '@/components/mcpapi';
 import { SearchResults } from '@/components/mcpapi/search-results';
+import { useMCPSearch } from '@/hooks/use-mcp-search';
 
+/**
+ * Home page component that displays MCP sections and search functionality
+ */
 export default function Home() {
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [searchResults, setSearchResults] = useState<MCPItem[]>([]);
-  const [recommendations, setRecommendations] = useState<MCPItem[]>([]);
-  const [explanation, setExplanation] = useState<string>('');
-  const [isSearching, setIsSearching] = useState<boolean>(false);
-  const [showSections, setShowSections] = useState<boolean>(true);
+  // Use our custom hook for search functionality
+  const { 
+    query, 
+    searchState, 
+    showSections, 
+    search, 
+    resetSearch 
+  } = useMCPSearch();
 
-  // 处理搜索
-  const handleSearch = async (query: string) => {
-    console.log('开始搜索，查询:', query);
-    if (!query.trim()) {
-      console.log('查询为空，重置搜索');
-      resetSearch();
-      return;
-    }
+  // Determine if we're currently searching
+  const isSearching = searchState.status === 'loading';
 
-    setSearchQuery(query);
-    setIsSearching(true);
-    setShowSections(false);
-    console.log('状态已更新: isSearching=true, showSections=false');
-
-    try {
-      // 调用搜索API
-      console.log('正在调用搜索API...');
-      const searchResponse = await fetch(`/api/mcp?query=${encodeURIComponent(query)}`);
-      const searchData = await searchResponse.json();
-      setSearchResults(searchData.items || []);
-      console.log('搜索结束');
-      const recommendResponse = await fetch('/api/recommend', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          query,
-          items: searchData.items,
-        }),
-      });
-
-      const recommendData = await recommendResponse.json();
-      console.log('推荐数据:', recommendData);
-      setRecommendations(recommendData.recommendations || []);
-      setExplanation(recommendData.explanation || '');
-    } catch (error) {
-      console.error('搜索出错:', error);
-    } finally {
-      console.log('搜索流程完成，设置 isSearching=false');
-      setIsSearching(false);
-    }
-  };
-
-  // 重置搜索
-  const resetSearch = () => {
-    setSearchQuery('');
-    setSearchResults([]);
-    setRecommendations([]);
-    setExplanation('');
-    setShowSections(true);
-  };
+  // Extract search results data when available
+  const searchResults = searchState.status === 'success' 
+    ? searchState.data.results 
+    : [];
+  
+  const recommendations = searchState.status === 'success' 
+    ? searchState.data.recommendations 
+    : [];
+  
+  const explanation = searchState.status === 'success' 
+    ? searchState.data.explanation 
+    : '';
 
   return (
     <MainLayout>
-      <HeroSection onSearch={handleSearch} />
+      <HeroSection onSearch={search} />
       
       {!showSections ? (
         <SearchResults
@@ -81,7 +48,8 @@ export default function Home() {
           recommendations={recommendations}
           explanation={explanation}
           isLoading={isSearching}
-          query={searchQuery}
+          query={query}
+          onReset={resetSearch}
         />
       ) : (
         mcpSections.map((section) => (
