@@ -1,8 +1,9 @@
-export * from "./header";
-export * from "./search-bar";
-export * from "./section-header";
-export * from "./section-grid";
-export * from "./mcp-card";
-export * from "./mcp-section";
-export * from "./hero-section";
-export * from "./main-layout";
+export { Header } from './header';
+export { SearchBar } from './search-bar';
+export { SectionHeader } from './section-header';
+export { SectionGrid } from './section-grid';
+export { MCPCard } from './mcp-card';
+export { MCPSection } from './mcp-section';
+export { HeroSection } from './hero-section';
+export { MainLayout } from './main-layout';
+export { SearchResults } from './search-results';
