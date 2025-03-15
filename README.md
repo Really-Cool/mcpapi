@@ -131,6 +131,10 @@ LLM_API_BASE_URL=https://api.deepseek.com
 
 # LLM 模型
 LLM_MODEL=deepseek-chat
+
+# 限流配置
+UPSTASH_REDIS_REST_URL=your_upstash_redis_url
+UPSTASH_REDIS_REST_TOKEN=your_upstash_redis_token
 ```
 
 ### 启动开发服务器
@@ -196,6 +200,48 @@ GET /api/mcp?query=chat&page=1&pageSize=5
 | `DEEPSEEK_API_KEY` | DeepSeek API 密钥 | - |
 | `LLM_API_BASE_URL` | LLM API 基础 URL | `https://api.deepseek.com` |
 | `LLM_MODEL` | 使用的 LLM 模型 | `deepseek-chat` |
+| `UPSTASH_REDIS_REST_URL` | Upstash Redis REST URL（用于限流） | - |
+| `UPSTASH_REDIS_REST_TOKEN` | Upstash Redis REST Token（用于限流） | - |
+
+## API 限流
+
+为了保护 API 服务不被滥用，MCP API 实现了请求限流机制。默认配置下，每个 IP 地址或认证令牌每秒最多允许 5 个请求（QPS=5）。
+
+### 限流配置
+
+限流功能使用 Upstash Redis 作为存储后端。要配置限流，请在 `.env.local` 文件中添加以下环境变量：
+
+```
+# 限流配置
+UPSTASH_REDIS_REST_URL=your_upstash_redis_url
+UPSTASH_REDIS_REST_TOKEN=your_upstash_redis_token
+```
+
+如果未配置 Upstash Redis，系统将自动降级为使用内存存储进行限流，但这不适合生产环境的多实例部署。
+
+### 限流响应
+
+当请求超过限流阈值时，API 将返回 HTTP 429 状态码（Too Many Requests）和以下响应：
+
+```json
+{
+  "error": "请求过于频繁，请稍后再试",
+  "details": "超出 API 调用限制"
+}
+```
+
+每个响应都包含以下限流相关的 HTTP 头：
+
+- `X-RateLimit-Limit`: 时间窗口内允许的最大请求数
+- `X-RateLimit-Remaining`: 当前时间窗口内剩余的请求数
+- `X-RateLimit-Reset`: 限流计数器重置的时间戳
+
+### 限流标识
+
+系统按以下优先级确定请求的唯一标识：
+
+1. 如果请求包含 `Authorization` 头（Bearer 令牌），则使用令牌作为标识
+2. 否则，使用客户端 IP 地址作为标识（从 `X-Forwarded-For` 或 `X-Real-IP` 头获取）
 
 ## 开发指南
 
