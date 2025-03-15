@@ -70,11 +70,25 @@ export class LLMService {
 
   /**
    * 获取MCP推荐
+   * @param query 用户查询
+   * @param items 可供推荐的MCP项目列表（已转换为推荐格式）
+   * @returns 推荐结果，包含推荐项目和解释
    */
   static async getRecommendations(
     query: string, 
     items: MCPItemForRecommend[]
   ): Promise<LLMRecommendationResponse> {
+    // 验证输入
+    if (!query || !query.trim()) {
+      return this.getFallbackRecommendations('', items);
+    }
+
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      console.warn('没有提供有效的MCP项目列表，使用兜底推荐');
+      return this.getFallbackRecommendations(query, []);
+    }
+
+    // 尝试从缓存获取
     const cachedResult = this.getFromCache(query);
     if (cachedResult) {
       return cachedResult;
@@ -84,7 +98,9 @@ export class LLMService {
       const systemPrompt = `你是一个MCP (Model Context Protocol) 专家，帮助用户根据他们的需求找到最合适的MCP服务器。
       基于用户的查询和可用的MCP项目列表，推荐最相关的1-3个MCP项目。
       提供一个简短的解释，说明为什么这些MCP项目适合用户的需求。
-      回复格式为JSON，包含recommendations数组和explanation字段。`;
+      回复格式为JSON，包含recommendations数组和explanation字段。
+      每个推荐项目必须包含id、title和description字段。`;
+      
       const userPrompt = `查询: "${query}"
       
       可用的MCP项目:
@@ -101,23 +117,36 @@ export class LLMService {
         max_tokens: 1000,
         response_format: { type: "json_object" }
       });
-      console.log('LLM 响应:', JSON.stringify(response, null, 2));
+      
       const content = response.choices[0]?.message?.content || '';
+      console.log('LLM 响应内容:', content);
       
       try {
         const parsedResponse = JSON.parse(content);
-        if (Array.isArray(parsedResponse.recommendations)) {
-          const result: LLMRecommendationResponse = {
-            recommendations: parsedResponse.recommendations,
-            explanation: parsedResponse.explanation || `基于您的查询"${query}"，以下是推荐的MCP服务器。`,
-            query
-          };
-          
-          this.saveToCache(query, result);
-          return result;
-        } else {
-          throw new Error('LLM 返回的数据格式不符合预期');
+        
+        // 验证响应格式
+        if (!parsedResponse.recommendations || !Array.isArray(parsedResponse.recommendations)) {
+          throw new Error('LLM 返回的数据缺少 recommendations 数组');
         }
+        
+        // 验证每个推荐项目的格式
+        const validRecommendations = parsedResponse.recommendations.filter((item: any) => {
+          return item && typeof item === 'object' && item.id && item.title && item.description;
+        });
+        
+        if (validRecommendations.length === 0) {
+          throw new Error('LLM 返回的推荐项目格式不正确');
+        }
+        
+        // 构建结果
+        const result: LLMRecommendationResponse = {
+          recommendations: validRecommendations,
+          explanation: parsedResponse.explanation || `基于您的查询"${query}"，以下是推荐的MCP服务器。`,
+          query
+        };
+        
+        this.saveToCache(query, result);
+        return result;
       } catch (parseError) {
         console.warn('解析 LLM 响应失败，使用兜底推荐:', parseError);
         return this.getFallbackRecommendations(query, items);
@@ -130,24 +159,37 @@ export class LLMService {
 
   /**
    * 兜底推荐功能 - 当LLM调用失败时使用
+   * @param query 用户查询
+   * @param items 可供推荐的MCP项目列表
+   * @returns 基于关键词匹配的推荐结果
    */
   static getFallbackRecommendations(
     query: string, 
     items: MCPItemForRecommend[]
   ): LLMRecommendationResponse {
+    // 确保 items 是有效的数组
+    const validItems = Array.isArray(items) ? items : [];
+    
+    if (validItems.length === 0) {
+      return {
+        recommendations: [],
+        explanation: `没有找到与"${query}"相关的MCP服务器。`,
+        query
+      };
+    }
+    
     const lowerQuery = query.toLowerCase();
     
     // 简单的关键词匹配
-    const matchedItems = items.filter(item => 
+    const matchedItems = validItems.filter(item => 
       item.title.toLowerCase().includes(lowerQuery) || 
-      item.description.toLowerCase().includes(lowerQuery) ||
-      item.packageName.toLowerCase().includes(lowerQuery)
+      (item.description && item.description.toLowerCase().includes(lowerQuery))
     );
     
     // 取前3个匹配项，如果没有匹配项，则返回前3个项目
     const recommendations = matchedItems.length > 0 
       ? matchedItems.slice(0, 3) 
-      : items.slice(0, 3);
+      : validItems.slice(0, 3);
     
     return {
       recommendations,

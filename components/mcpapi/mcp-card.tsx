@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { LucideIcon } from "lucide-react";
 import { ReactNode } from "react";
 
 export interface MCPCardProps {
   title: string;
-  packageName: string;
+  packageName?: string;
   description: string;
-  icon: ReactNode;
+  icon?: ReactNode;
+  iconName?: string;
   downloads?: string;
   isActive?: boolean;
   githubLink?: string;
@@ -21,11 +21,22 @@ export function MCPCard({
   isActive = false,
   githubLink
 }: MCPCardProps) {
+  // 渲染图标
+  const renderIcon = (icon: ReactNode | string) => {
+    // 优先使用 ReactNode 类型的 icon
+    if (icon && typeof icon !== 'object') {
+      return icon;
+    }
+    
+    // 默认图标
+    return "📦";
+  };
+
   return (
     <div className="bg-[#292524] rounded-md p-4 border border-[#444444] hover:border-[#ea580c] transition-colors">
       <div className="flex justify-between items-start mb-2">
         <div className="flex items-center gap-2">
-          <span className="text-[#ea580c]">{icon}</span>
+          <span className="text-[#ea580c]">{renderIcon(icon)}</span>
           <span className="font-medium">{title}</span>
         </div>
         {downloads && (
@@ -38,7 +49,7 @@ export function MCPCard({
             {packageName}
           </Link>
         ) : (
-          <span>{packageName}</span>
+          packageName && <span>{packageName}</span>
         )}
         {isActive && (
           <span className="inline-block ml-2 w-2 h-2 rounded-full bg-[#22c55e]"></span>

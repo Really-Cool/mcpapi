@@ -20,7 +20,9 @@ export default function Home() {
 
   // 处理搜索
   const handleSearch = async (query: string) => {
+    console.log('开始搜索，查询:', query);
     if (!query.trim()) {
+      console.log('查询为空，重置搜索');
       resetSearch();
       return;
     }
@@ -28,14 +30,14 @@ export default function Home() {
     setSearchQuery(query);
     setIsSearching(true);
     setShowSections(false);
+    console.log('状态已更新: isSearching=true, showSections=false');
 
     try {
       // 调用搜索API
+      console.log('正在调用搜索API...');
       const searchResponse = await fetch(`/api/mcp?query=${encodeURIComponent(query)}`);
       const searchData = await searchResponse.json();
       setSearchResults(searchData.items || []);
-
-      // 调用LLM推荐API
       const recommendResponse = await fetch('/api/recommend', {
         method: 'POST',
         headers: {
@@ -48,11 +50,13 @@ export default function Home() {
       });
 
       const recommendData = await recommendResponse.json();
+      console.log('推荐数据:', recommendData);
       setRecommendations(recommendData.recommendations || []);
       setExplanation(recommendData.explanation || '');
     } catch (error) {
       console.error('搜索出错:', error);
     } finally {
+      console.log('搜索流程完成，设置 isSearching=false');
       setIsSearching(false);
     }
   };

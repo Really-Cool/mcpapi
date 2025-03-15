@@ -1,57 +1,36 @@
 import { MCPItem } from '@/types/mcp';
-import { ReactElement } from 'react';
+import { ReactNode } from 'react';
+
 
 /**
- * 从 MCPItem 中提取图标名称
- * 将 React 组件转换为可序列化的字符串表示
+ * 为推荐系统优化的 MCPItem 版本
+ * 只包含推荐所需的关键字段
  */
-export function getIconName(item: MCPItem): string {
-  try {
-    // 检查 icon 是否为 React 元素
-    const icon = item.icon as ReactElement;
-    
-    // 如果是 span 元素（包含 emoji）
-    if (icon && typeof icon === 'object' && icon.type === 'span') {
-      return 'Emoji';
-    }
-    
-    // 如果是 Lucide 图标
-    if (icon && typeof icon === 'object' && typeof icon.type === 'function') {
-      return icon.type.name || 'Icon';
-    }
-    
-    // 默认情况
-    return 'Icon';
-  } catch (error) {
-    // 如果解析过程中出错，返回默认值
-    return 'Icon';
-  }
+export interface MCPItemForRecommend {
+  id: string;
+  title: string;
+  packageName?: string;
+  description: string;
 }
 
 /**
- * 创建一个不包含 icon 的 MCPItem 版本
- * 用于 API 响应中的序列化
- */
-export type MCPItemForRecommend = Omit<MCPItem, 'icon'> & {
-  iconName?: string;
-};
-
-/**
- * 将 MCPItem 转换为可序列化的格式
- * 移除不可序列化的 React 组件
+ * 将 MCPItem 转换为推荐系统所需的精简格式
+ * @param item 原始 MCP 项目
+ * @returns 精简后的 MCP 项目，只包含推荐所需字段
  */
 export function convertToSerializable(item: MCPItem | any): MCPItemForRecommend {
-  // 如果项目已经没有 icon 属性（来自前一个 API 调用）
-  if (!('icon' in item)) {
-    return item as MCPItemForRecommend;
-  }
+  const { 
+    id, 
+    title,
+    packageName,
+    description
+  } = item as MCPItem;
   
-  // 否则，创建一个不包含 icon 的新对象
-  const { icon, ...itemWithoutIcon } = item as MCPItem;
-  
-  // 添加图标名称信息
+  // 创建精简版本，使用iconName替代icon
   return {
-    ...itemWithoutIcon,
-    iconName: getIconName(item as MCPItem)
-  } as MCPItemForRecommend;
+    id,
+    title,
+    packageName,
+    description
+  };
 }
