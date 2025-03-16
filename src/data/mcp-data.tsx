@@ -5,240 +5,202 @@ export const mcpSections: MCPSection[] = [
   {
     id: "featured",
     title: "大家在用",
-    count: 5,
+    count: 4,
     items: [
       {
-        id: "sequential-thinking",
-        title: "Sequential Thinking",
-        packageName: "@mcthinking/sequential-thinking",
-        description: "这个MCP服务器可以帮助Agent通过结构化思考过程来有效地解决问题，就像资深项目经理一样。",
+        id: "dr.smithery",
+        title: "Dr.Smithery",
+        packageName: "@insrisk/dr.smithery",
+        description: "Dr.Smithery是一个元MCP服务器，可以作为第0个MCP推荐其他MCP以及自动安装、启动。",
         icon: <FileText className="h-5 w-5" />,
         iconName: "📄",
         downloads: "🔥",
         isActive: true,
-        githubLink: "https://github.com/smithery-ai/reference-servers/tree/main/src/sequentialthinking"
+        githubLink: "https://agent.alipay.com/agent/app/appManage?botId=106349&projectId=7538"
       },
       {
-        id: "github",
-        title: "Github",
-        packageName: "@mcthinking/github",
-        description: "访问GitHub API，实现文件操作、仓库管理、搜索功能等多种功能。",
-        icon: <Github className="h-5 w-5" />,
+        id: "mcpbridge",
+        title: "MCPBridge",
+        packageName: "@insrisk/mcpbridge",
+        description: "MCPBridge 负责桥接HTTP接口、百灵Agent 到MCP服务器。",
+        icon: <FileText className="h-5 w-5" />,
         iconName: "🐙",
         downloads: "16.7k",
         isActive: true,
-        githubLink: "https://github.com/modelcontextprotocol/servers"
+        githubLink: "https://agent.alipay.com/agent/app/appManage?botId=106349&projectId=7538"
       },
       {
         id: "brave-search",
-        title: "Brave Search",
+        title: "赔付率异动分析",
         packageName: "@brave/brave-search",
-        description: "集成网络和本地搜索功能，提供强大的信息检索能力。",
+        description: "赔付率异动分析，提供对保险赔付率指标风险深入、全面的分析和洞察。",
         icon: <Search className="h-5 w-5" />,
         iconName: "🔍",
         downloads: "7.62k",
         isActive: true,
-        githubLink: "https://github.com/Henry-Jessie/brave-search-server"
+        githubLink: "https://agent.alipay.com/agent/app/appManage?botId=106349&projectId=7538"
       },
       {
         id: "magic-mcp",
-        title: "Magic MCP",
+        title: "端到端风控策略部署",
         packageName: "@magic/developer-mcp",
-        description: "MCP的v0版本，前端体验如魔法般流畅，提供直观的用户界面。",
+        description: "端到端风控策略部署，提供从策略的系分、Code实现、验证到部署、旁路的完整流程。",
         icon: <span className="h-5 w-5 flex items-center justify-center">✨</span>,
         iconName: "✨",
         downloads: "5.26k",
         isActive: true,
-        githubLink: "https://github.com/21st-dev/magic-mcp"
-      },
-      {
-        id: "fetch",
-        title: "Fetch",
-        packageName: "@mcfetch/fetch",
-        description: "一个简单的工具，可以执行网络请求并获取内容，支持多种格式转换。",
-        icon: <ArrowRight className="h-5 w-5" />,
-        iconName: "➡️",
-        downloads: "2.2k",
-        isActive: true,
-        githubLink: "https://github.com/zcaceres/fetch-mcp"
+        githubLink: "https://agent.alipay.com/agent/app/appManage?botId=106349&projectId=7538"
       }
     ]
   },
   {
     id: "web-development",
-    title: "网页开发",
+    title: "保险精算",
     count: 5,
     items: [
       {
         id: "osp-marketing",
-        title: "OSP Marketing Tools",
-        packageName: "osp-marketing-tools",
-        description: "用于技术内容创建和产品定位的工具，帮助开发者更好地展示项目。",
+        title: "定价方案流程管理",
+        packageName: "@insrisk/osp-marketing",
+        description: "定价方案流程管理，提供从需求分析、方案设计、审批到执行的完整流程。",
         icon: <span className="h-5 w-5 flex items-center justify-center">📊</span>,
         iconName: "📊",
         isActive: false,
-        githubLink: "https://github.com/modelcontextprotocol/servers"
+        githubLink: "https://agent.alipay.com/agent/app/appManage?botId=106349&projectId=7538"
       },
       {
         id: "integration-app",
-        title: "Integration App Server",
-        packageName: "@integration-app/mcp-server",
-        description: "提供由Integration App支持的工具，包括Gmail、日历等20多种应用集成。",
+        title: "责任保费计费",
+        packageName: "@insrisk/integration-app",
+        description: "提供保险产品责任保费计费工具，帮助您计算和管理保费。",
         icon: <span className="h-5 w-5 flex items-center justify-center">🔄</span>,
         iconName: "🔄",
         isActive: false,
-        githubLink: "https://github.com/modelcontextprotocol/servers"
+        githubLink: "https://agent.alipay.com/agent/app/appManage?botId=106349&projectId=7538"
       },
       {
         id: "veryax-mcp",
-        title: "VeryaX MCP",
-        packageName: "@VeryaX/verya-mcp",
-        description: "提供MCP工具连接您所有喜爱的工具：Gmail、日历等20多种应用。",
+        title: "精算场景测试",
+        packageName: "@insrisk/veryax-mcp",
+        description: "提供精算场景测试工具，帮助您测试和优化保险精算模型。",
         icon: <span className="h-5 w-5 flex items-center justify-center">⚡</span>,
         iconName: "⚡",
         downloads: "751",
         isActive: true,
-        githubLink: "https://github.com/modelcontextprotocol/servers"
+        githubLink: "https://agent.alipay.com/agent/app/appManage?botId=106349&projectId=7538"
       },
       {
         id: "notion-api",
-        title: "Notion API",
-        packageName: "notion-api-mcp",
-        description: "集成和管理Notion数据库和任务，使用Notion的API实现无缝协作。",
+        title: "精算敏感性测试",
+        packageName: "@insrisk/actuarial-mcp",
+        description: "提供精算敏感性测试工具，帮助您测试和优化保险精算模型。",
         icon: <span className="h-5 w-5 flex items-center justify-center">📝</span>,
         iconName: "📝",
         downloads: "392",
         isActive: true,
-        githubLink: "https://github.com/modelcontextprotocol/servers"
+        githubLink: "https://agent.alipay.com/agent/app/appManage?botId=106349&projectId=7538"
       },
       {
         id: "web-research",
-        title: "Web Research Server",
-        packageName: "@mchumming/web-research",
-        description: "将实时网络研究功能集成到您的工作流程中，使用搜索和内容提取工具进行彻底研究。",
+        title: "外部保险产品搜索",
+        packageName: "@insurance/product-search",
+        description: "提供保险产品搜索工具，帮助您快速找到您需要了解的其他公司保险产品。",
         icon: <ArrowRight className="h-5 w-5" />,
         iconName: "➡️",
         isActive: true,
-        githubLink: "https://github.com/modelcontextprotocol/servers"
+        githubLink: "https://agent.alipay.com/agent/app/appManage?botId=106349&projectId=7538"
       }
     ]
   },
   {
     id: "google-workspace",
-    title: "Google 生态",
-    count: 5,
+    title: "保单与案件域",
+    count: 3,
     items: [
       {
-        id: "google-workspace-integration",
-        title: "Google Workspace Integra",
-        packageName: "mcp-gsuit",
-        description: "与Gmail和Google日历交互，管理Google账户，搜索和撰写电子邮件，以及管理日历事件。",
-        icon: <Github className="h-5 w-5" />,
-        iconName: "🐙",
-        downloads: "101",
-        isActive: false,
-        githubLink: "https://github.com/modelcontextprotocol/servers"
-      },
-      {
-        id: "gsuite-integration",
-        title: "G Suite Integration",
-        packageName: "@mchumming/gsuite-tools",
-        description: "与Google产品如Gmail和日历交互，提供无缝的工作流程集成。",
-        icon: <span className="h-5 w-5 flex items-center justify-center">📧</span>,
-        iconName: "📧",
+        id: "case-analysis",
+        title: "理赔案件分析",
+        packageName: "@insrisk/insrisk-case-analysis",
+        description: "提供理赔案件分析工具，快速准备分析理赔案件的风险",
+        icon: <ArrowRight className="h-5 w-5" />,
+        iconName: "➡️",
         isActive: true,
-        githubLink: "https://github.com/modelcontextprotocol/servers"
+        githubLink: "https://agent.alipay.com/agent/app/appManage?botId=106349&projectId=7538"
       },
       {
-        id: "google-calendar",
-        title: "Google Calendar",
-        packageName: "google-calendar-mcp",
-        description: "通过标准化接口与Google日历集成，管理事件和日程安排。",
-        icon: <span className="h-5 w-5 flex items-center justify-center">📅</span>,
-        iconName: "📅",
-        downloads: "32",
-        isActive: false,
-        githubLink: "https://github.com/modelcontextprotocol/servers"
-      },
-      {
-        id: "gsuite-tools",
-        title: "G Suite Integration",
-        packageName: "@mchumming/gsuite-tools",
-        description: "与Google产品如Gmail和日历交互，提供全面的工作协作功能。",
-        icon: <span className="h-5 w-5 flex items-center justify-center">📧</span>,
-        iconName: "📧",
+        id: "insrisk-search",
+        title: "保单搜索",
+        packageName: "@insrisk/insrisk-policy-search",
+        description: "提供保单搜索工具，帮助您快速找到您需要了解的保单。",
+        icon: <ArrowRight className="h-5 w-5" />,
+        iconName: "➡️",
         isActive: true,
-        githubLink: "https://github.com/modelcontextprotocol/servers"
+        githubLink: "https://agent.alipay.com/agent/app/appManage?botId=106349&projectId=7538"
       },
       {
-        id: "google-workspace-server",
-        title: "Google Workspace MCP Server",
-        packageName: "google-workspace-server",
-        description: "通过MC接口与Gmail和日历API交互，实现高效的工作流程自动化。",
-        icon: <span className="h-5 w-5 flex items-center justify-center">🔄</span>,
-        iconName: "🔄",
+        id: "insrisk-detail",
+        title: "保单详情查询",
+        packageName: "@insrisk/insrisk-policy-detail",
+        description: "提供保单详情查询工具，帮助您快速找到您需要了解的保单详情。",
+        icon: <ArrowRight className="h-5 w-5" />,
+        iconName: "➡️",
         isActive: true,
-        githubLink: "https://github.com/modelcontextprotocol/servers"
+        githubLink: "https://agent.alipay.com/agent/app/appManage?botId=106349&projectId=7538"
       }
     ]
   },
   {
     id: "protocol-integration",
-    title: "专注于连接",
-    count: 5,
+    title: "策略域",
+    count: 2,
     items: [
       {
-        id: "model-context-protocol",
-        title: "Model Context Protocol Serv",
-        packageName: "@mchumming/servers",
-        description: "展示Model Context Protocol的多功能实现，用于安全的LLM访问和交互。",
-        icon: <span className="h-5 w-5 flex items-center justify-center">🔄</span>,
-        iconName: "🔄",
-        downloads: "1",
+        id: "insrisk-policy",
+        title: "风控策略查询",
+        packageName: "@insrisk/insrisk-policy",
+        description: "提供风控策略查询工具，帮助您快速找到您需要了解的风控策略。",
+        icon: <ArrowRight className="h-5 w-5" />,
+        iconName: "➡️",
         isActive: true,
-        githubLink: "https://github.com/modelcontextprotocol/servers"
+        githubLink: "https://agent.alipay.com/agent/app/appManage?botId=106349&projectId=7538"
       },
       {
-        id: "mcp-server-starter",
-        title: "MCP Server Starter",
-        packageName: "@mchumming/server-starter",
-        description: "构建强大的服务器，使AI代理能够与各种工具交互，快速启动您的MCP项目。",
-        icon: <span className="h-5 w-5 flex items-center justify-center">📦</span>,
-        iconName: "📦",
-        downloads: "19",
+        id: "strategy-deployment",
+        title: "端到端策略部署",
+        packageName: "@magic/developer-mcp",
+        description: "端到端策略部署，提供从策略的系分、Code实现、验证到部署、旁路的完整流程。",
+        icon: <span className="h-5 w-5 flex items-center justify-center">✨</span>,
+        iconName: "✨",
+        downloads: "5.26k",
         isActive: true,
-        githubLink: "https://github.com/modelcontextprotocol/servers"
+        githubLink: "https://agent.alipay.com/agent/app/appManage?botId=106349&projectId=7538"
+      }
+    ]
+  },
+  {
+    id: "feature-domain",
+    title: "特征域",
+    count: 2,
+    items: [
+      {
+        id: "insrisk-feature-generator",
+        title: "风控特征生成",
+        packageName: "@insrisk/insrisk-feature-generator",
+        description: "提供风控特征生成工具，帮助您快速生成您需要的风控特征。",
+        icon: <ArrowRight className="h-5 w-5" />,
+        iconName: "➡️",
+        isActive: true,
+        githubLink: "https://agent.alipay.com/agent/app/appManage?botId=106349&projectId=7538"
       },
       {
-        id: "database-explorer",
-        title: "Database Explorer",
-        packageName: "@mchumming/db-tool",
-        description: "高效连接和管理各种数据库，执行查询，列出表格，管理您的数据。",
-        icon: <Database className="h-5 w-5" />,
-        iconName: "🗄️",
-        downloads: "17",
+        id: "insrisk-feature-collector",
+        title: "风控特征自助取数",
+        packageName: "@insrisk/insrisk-feature-collector",
+        description: "提供风控特征自助取数工具，帮助您快速找到您需要的风控特征。",
+        icon: <ArrowRight className="h-5 w-5" />,
+        iconName: "➡️",
         isActive: true,
-        githubLink: "https://github.com/hannesrudolph/sqlite-explorer-fastmcp-mcp-server"
-      },
-      {
-        id: "second-opinion",
-        title: "Second Opinion",
-        packageName: "@second/second-opinion-mcp-server",
-        description: "利用多个来源的见解为编码问题提供AI驱动的帮助，获取专业建议。",
-        icon: <span className="h-5 w-5 flex items-center justify-center">🧠</span>,
-        iconName: "🧠",
-        isActive: false,
-        githubLink: "https://github.com/modelcontextprotocol/servers"
-      },
-      {
-        id: "claude-code-mcp",
-        title: "Claude Code MCP Server",
-        packageName: "@mchumming/claude-code-mcp",
-        description: "通过标准化接口利用强大的软件工程能力，使用Claude增强您的编码工作流程。",
-        icon: <span className="h-5 w-5 flex items-center justify-center">🤖</span>,
-        iconName: "🤖",
-        isActive: true,
-        githubLink: "https://github.com/modelcontextprotocol/servers"
+        githubLink: "https://agent.alipay.com/agent/app/appManage?botId=106349&projectId=7538"
       }
     ]
   }

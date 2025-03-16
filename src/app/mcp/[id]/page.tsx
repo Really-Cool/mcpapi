@@ -56,17 +56,13 @@ export default function MCPDetailPage() {
   
   // Find the MCP item from all sections based on the ID
   useEffect(() => {
-    // Log for debugging
-    console.log('Detail page params:', params);
     const id = params.id as string;
     console.log('Looking for MCP with ID:', id);
     
     // Search all MCP sections to find the item with matching ID
     const allItems = mcpSections.flatMap(section => section.items);
-    console.log('Available MCP items:', allItems.map(item => item.id));
     
     const foundItem = allItems.find(item => item.id === id);
-    console.log('Found item:', foundItem);
       
     setMcpItem(foundItem || null);
     setLoading(false);
@@ -151,31 +147,17 @@ export default function MCPDetailPage() {
   const renderedIcon = IconService.createIcon(mcpItem.icon, mcpItem.iconName);
   
   // Create code snippets for installation methods
-  const npmInstallCode = `npm install ${mcpItem.packageName}`;
+  const npmInstallCode = `npx -y @alipay-smithery/mcpbridge ${mcpItem.packageName} -p userId=xiaohui.wyh`;
   const yarnInstallCode = `yarn add ${mcpItem.packageName}`;
   
   // Sample TypeScript usage code
-  const tsUsageCode = `import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { ${mcpItem.title.replace(/\s+/g, '')}Client } from "${mcpItem.packageName}";
-
-// 初始化客户端
-const transport = new StdioClientTransport();
-const client = new ${mcpItem.title.replace(/\s+/g, '')}Client(transport);
-
-// 使用客户端功能
-async function main() {
-  // 连接到服务器
-  await client.connect();
-  
-  // 调用服务器功能
-  const result = await client.someFunction({
-    // 参数
-  });
-  
-  console.log("结果:", result);
-}
-
-main().catch(console.error);`;
+  const tsUsageCode = `
+1. 检查当前 MCP 客户端是否正常
+2. 检查当前MCP 客户端配置路径
+3. 检查是否要使用 mcpbridge
+4. 配置 ${mcpItem.packageName} MCP 服务器
+5. 检查MCP 服务器是否正常工作
+`;
 
   return (
     <MainLayout>
@@ -244,8 +226,7 @@ main().catch(console.error);`;
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Github size={14} className="mr-1" />
-                  GitHub
+                  <ExternalLink size={16} className="mr-2" />
                 </Link>
               )}
             </div>
@@ -266,24 +247,13 @@ main().catch(console.error);`;
             className="text-xl font-semibold mb-4"
             style={{ color: currentTheme.colors.text.primary }}
           >
-            安装
+            手动安装
           </h2>
           <div className="grid gap-6 md:grid-cols-2">
             <div 
               className="p-4 rounded-md"
               style={{ backgroundColor: currentTheme.colors.background.secondary }}
             >
-              <div className="flex justify-between items-center mb-2">
-                <h3 style={{ color: currentTheme.colors.text.primary }}>使用 npm</h3>
-                <button 
-                  className="text-xs px-2 py-1 rounded"
-                  style={{ backgroundColor: currentTheme.colors.background.hover }}
-                  onClick={() => navigator.clipboard.writeText(npmInstallCode)}
-                  title="复制命令"
-                >
-                  复制
-                </button>
-              </div>
               <pre 
                 className="p-3 rounded-md overflow-x-auto"
                 style={{ backgroundColor: currentTheme.colors.background.hover }}
@@ -297,25 +267,6 @@ main().catch(console.error);`;
               className="p-4 rounded-md"
               style={{ backgroundColor: currentTheme.colors.background.secondary }}
             >
-              <div className="flex justify-between items-center mb-2">
-                <h3 style={{ color: currentTheme.colors.text.primary }}>使用 yarn</h3>
-                <button 
-                  className="text-xs px-2 py-1 rounded"
-                  style={{ backgroundColor: currentTheme.colors.background.hover }}
-                  onClick={() => navigator.clipboard.writeText(yarnInstallCode)}
-                  title="复制命令"
-                >
-                  复制
-                </button>
-              </div>
-              <pre 
-                className="p-3 rounded-md overflow-x-auto"
-                style={{ backgroundColor: currentTheme.colors.background.hover }}
-              >
-                <code style={{ color: currentTheme.colors.text.primary }}>
-                  {yarnInstallCode}
-                </code>
-              </pre>
             </div>
           </div>
         </section>
@@ -326,22 +277,13 @@ main().catch(console.error);`;
             className="text-xl font-semibold mb-4"
             style={{ color: currentTheme.colors.text.primary }}
           >
-            使用示例
+            Dr.Smithery 安装
           </h2>
           <div 
             className="p-4 rounded-md"
             style={{ backgroundColor: currentTheme.colors.background.secondary }}
           >
             <div className="flex justify-between items-center mb-2">
-              <h3 style={{ color: currentTheme.colors.text.primary }}>TypeScript 示例</h3>
-              <button 
-                className="text-xs px-2 py-1 rounded"
-                style={{ backgroundColor: currentTheme.colors.background.hover }}
-                onClick={() => navigator.clipboard.writeText(tsUsageCode)}
-                title="复制代码"
-              >
-                复制
-              </button>
             </div>
             <pre 
               className="p-3 rounded-md overflow-x-auto"
@@ -361,13 +303,13 @@ main().catch(console.error);`;
               className="text-xl font-semibold mb-4"
               style={{ color: currentTheme.colors.text.primary }}
             >
-              文档与资源
+              使用说明
             </h2>
             <div 
               className="p-4 rounded-md flex items-center justify-between"
               style={{ backgroundColor: currentTheme.colors.background.secondary }}
             >
-              <span style={{ color: currentTheme.colors.text.primary }}>访问 GitHub 仓库查看完整文档</span>
+              <span style={{ color: currentTheme.colors.text.primary }}>查看更多</span>
               <Link 
                 href={mcpItem.githubLink} 
                 className="flex items-center px-3 py-2 rounded transition-colors"

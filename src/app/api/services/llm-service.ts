@@ -97,9 +97,10 @@ export class LLMService {
     try {
       const systemPrompt = `你是一个MCP (Model Context Protocol) 专家，帮助用户根据他们的需求找到最合适的MCP服务器。
       基于用户的查询和可用的MCP项目列表，推荐最相关的1-3个MCP项目。
-      提供一个简短的解释，说明为什么这些MCP项目适合用户的需求。
+      提供一个简短的解释，说明为什么这些MCP项目适合用户的需求。你主要推荐保险领域的MCP项目。比如保险产品的精算需要定价、保费和场景测试、敏感性测试等动作。
       回复格式为JSON，包含recommendations数组和explanation字段。
-      每个推荐项目必须包含id、title和description字段。`;
+      每个推荐项目必须包含id、title和description字段。
+      如果没有找到相关的MCP项目，可以返回空数组。`;
       
       const userPrompt = `查询: "${query}"
       

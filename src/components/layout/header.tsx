@@ -36,26 +36,12 @@ export function Header({ showGithub = true }: HeaderProps) {
           className="text-xl font-bold mr-8"
           style={{ color: currentTheme.colors.text.primary }}
         >
-          <span>MC</span>
-          <span style={{ color: currentTheme.colors.text.accent }}>Papi</span>
+          <span>Dr.</span>
+          <span style={{ color: currentTheme.colors.text.accent }}>Smithery</span>
         </Link>
       </div>
       <div className="flex items-center space-x-4">
-        {showGithub && (
-          <Link 
-            href="https://github.com/Really-Cool/mcpapi" 
-            className="flex items-center gap-1 px-3 py-1 rounded transition-colors"
-            style={{ 
-              backgroundColor: currentTheme.colors.background.secondary,
-              color: currentTheme.colors.text.secondary
-            }}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Github className="h-4 w-4" />
-            <span>GitHub</span>
-          </Link>
-        )}
+        {/* TODO YUQUE */}
         <Link 
           href="https://xiaohui.cool/Farming-in-the-cyber-world" 
           className="flex items-center gap-1 px-3 py-1 rounded transition-colors"
