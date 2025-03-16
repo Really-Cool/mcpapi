@@ -401,3 +401,28 @@ Cloudflare Pages 对单个文件的大小限制为 25MB，解决方法：
 
 ---
 如有任何部署问题或需要进一步的帮助，请参考 [Cloudflare Pages 文档](https://developers.cloudflare.com/pages/) 或联系 Cloudflare 支持。
+
+
+### node 找不到问题
+实在不行，自己登陆服务器去装
+
+```sh
+# Install xz-utils if missing
+if ! command -v xz &> /dev/null; then
+    sudo apt-get update
+    sudo apt-get install -y xz-utils
+fi
+
+# Install Node.js
+NODE_VERSION=$(curl -s https://nodejs.org/dist/index.json | grep -oP '(?<="version":"v)[^"]+' | head -1)
+curl -O https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz
+sudo mkdir -p /usr/local/lib/nodejs
+sudo tar -xJf node-v$NODE_VERSION-linux-x64.tar.xz -C /usr/local/lib/nodejs
+
+# Add to PATH
+export PATH=/usr/local/lib/nodejs/node-v$NODE_VERSION-linux-x64/bin:$PATH
+
+# Verify installation
+node -v
+{{ ... }}
+```
