@@ -1,0 +1,54 @@
+# Wrangler 配置文件示例 - 适用于 Cloudflare Workers 部署
+
+name = "mcpapi"
+main = "src/worker.js"
+compatibility_date = "2025-03-16"
+
+# 路由配置
+routes = [
+  { pattern = "mcpapi.net/*", zone_name = "mcpapi.net" }
+]
+
+# 触发器配置
+[triggers]
+crons = []
+
+# 环境变量配置
+[vars]
+APP_ENV = "production"
+
+# 开发环境配置
+[dev]
+port = 8787
+local_protocol = "http"
+
+# 生产环境配置
+[env.production]
+vars = { APP_ENV = "production" }
+
+# 自定义域名配置
+[env.production.routes]
+pattern = "mcpapi.net/*"
+zone_name = "mcpapi.net"
+
+# 绑定配置
+[binding]
+type = "kv"
+name = "MCPAPI_CACHE"
+id = "your-kv-namespace-id"
+
+# 构建配置
+[build]
+command = "npm run build"
+watch_dir = "src"
+
+# 部署配置
+[site]
+bucket = ".next"
+include = [".next/**/*"]
+exclude = [
+  ".next/cache/**",
+  ".next/server/chunks/**/*.js.map",
+  ".next/server/pages/**/*.js.map",
+  ".next/cache/webpack/**"
+]
