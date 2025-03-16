@@ -1,0 +1,37 @@
+# Cloudflare Pages 忽略文件
+
+# 忽略 Node.js 依赖
+node_modules/
+
+# 忽略 webpack 缓存文件
+.next/cache/
+.next/cache/webpack/
+.next/server/chunks/**/*.js.map
+.next/server/pages/**/*.js.map
+
+# 忽略源代码映射文件
+**/*.js.map
+**/*.css.map
+
+# 忽略开发文件
+.git/
+.github/
+.vscode/
+.idea/
+
+# 忽略测试文件
+__tests__/
+**/*.test.js
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.js
+**/*.spec.ts
+**/*.spec.tsx
+
+# 忽略文档和配置文件
+README.md
+DEPLOY.md
+LICENSE
+.eslintrc*
+.prettierrc*
+.editorconfig

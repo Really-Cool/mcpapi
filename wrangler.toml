@@ -8,6 +8,15 @@ compatibility_date = "2025-03-16"
 command = "npm run build"
 pages_build_output_dir=".next"
 
+[build.upload]
+format = "directory"
+include = [".next/**/*"]
+exclude = [
+  ".next/cache/**",
+  ".next/server/chunks/**/*.js.map",
+  ".next/server/pages/**/*.js.map",
+  ".next/cache/webpack/**"
+]
 
 # 环境变量配置
 [site]

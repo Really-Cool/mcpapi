@@ -321,5 +321,83 @@ You are using Node.js 18.17.1. For Next.js, Node.js version "^18.18.0 || ^19.8.0
 
 注意：Cloudflare Pages 会自动检测这些文件并使用指定的 Node.js 版本。
 
+### Cloudflare Pages 文件大小限制问题
+
+如果遇到类似以下的文件大小限制错误：
+
+```
+✘ [ERROR] Error: Pages only supports files up to 25 MiB in size
+cache/webpack/server-production/0.pack is 27.4 MiB in size
+```
+
+Cloudflare Pages 对单个文件的大小限制为 25MB，解决方法：
+
+1. **优化 Next.js 配置**：
+   在 `next.config.js` 中添加以下配置：
+   ```javascript
+   module.exports = {
+     // 其他配置...
+     output: 'standalone',
+     webpack: (config, { dev, isServer }) => {
+       // 仅在生产环境中应用优化
+       if (!dev) {
+         // 优化分块策略
+         config.optimization.splitChunks = {
+           chunks: 'all',
+           maxInitialRequests: 25,
+           minSize: 20000,
+           maxSize: 20 * 1024 * 1024, // 20MB
+           // 其他配置...
+         };
+         
+         // 减少 webpack 缓存文件大小
+         if (isServer) {
+           config.cache = {
+             type: 'filesystem',
+             compression: 'gzip',
+             // 其他配置...
+           };
+         }
+       }
+       return config;
+     },
+   };
+   ```
+
+2. **排除 webpack 缓存文件**：
+   - 创建 `.cfignore` 文件排除大文件：
+     ```
+     # 忽略 webpack 缓存文件
+     .next/cache/
+     .next/cache/webpack/
+     .next/server/chunks/**/*.js.map
+     .next/server/pages/**/*.js.map
+     ```
+   
+   - 在 `wrangler.toml` 中添加排除规则：
+     ```toml
+     [build.upload]
+     format = "directory"
+     include = [".next/**/*"]
+     exclude = [
+       ".next/cache/**",
+       ".next/server/chunks/**/*.js.map",
+       ".next/server/pages/**/*.js.map",
+       ".next/cache/webpack/**"
+     ]
+     ```
+
+3. **清理构建缓存**：
+   在部署前清理构建缓存：
+   ```bash
+   rm -rf .next/cache
+   npm run build
+   ```
+
+4. **使用 `standalone` 输出模式**：
+   在 `next.config.js` 中设置 `output: 'standalone'`，这会创建一个包含所有必要文件的独立输出，不包括缓存文件。
+
+注意：Cloudflare Pages 的文件大小限制是固定的，无法通过配置修改。因此，必须确保所有文件都小于 25MB。
+
 ---
 如有任何部署问题或需要进一步的帮助，请参考 [Cloudflare Pages 文档](https://developers.cloudflare.com/pages/) 或联系 Cloudflare 支持。

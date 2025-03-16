@@ -6,6 +6,9 @@
 # next.js
 /.next/
 /out/
+# webpack 缓存文件
+/.next/cache/
+/.next/cache/webpack/
 
 # production
 /build
