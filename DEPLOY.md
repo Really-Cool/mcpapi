@@ -271,23 +271,55 @@ compatibility_date = "2025-03-16"
 # Pages 特定配置
 [build]
 command = "npm run build"
-[build.upload]
-format = "service-worker"
-
-# Pages 构建输出目录 - 这是关键配置
-pages_build_output_dir = ".next"
+output_directory = ".next"
 
 # 环境变量配置
-[vars]
-APP_ENV = "production"
+[site]
+bucket = ".next"
+
+[env.production]
+vars = { APP_ENV = "production" }
 
 # 兼容性标志
 [compatibility_flags]
 nodejs_compat = true
 ```
 
-注意：`pages_build_output_dir` 是 Cloudflare Pages 部署所必需的配置项。
+注意：
+- Cloudflare Pages 使用 `output_directory` 而不是 `pages_build_output_dir`
+- 环境变量应该在 `[env.production]` 下的 `vars` 中定义
+- `[site]` 部分中的 `bucket` 应指向构建输出目录
+
+### Node.js 版本问题
+
+如果遇到类似以下的 Node.js 版本错误：
+
+```
+You are using Node.js 18.17.1. For Next.js, Node.js version "^18.18.0 || ^19.8.0 || >= 20.0.0" is required.
+```
+
+解决方法：
+
+1. **创建 `.node-version` 文件**：
+   在项目根目录创建 `.node-version` 文件，指定 Node.js 版本：
+   ```
+   20.11.1
+   ```
+
+2. **在 `.env.local` 中指定 Node.js 版本**：
+   ```
+   NODE_VERSION=20.11.1
+   ```
+
+3. **在 `package.json` 中指定 Node.js 版本**：
+   在 `package.json` 中添加 `engines` 字段：
+   ```json
+   "engines": {
+     "node": ">=20.0.0"
+   }
+   ```
+
+注意：Cloudflare Pages 会自动检测这些文件并使用指定的 Node.js 版本。
 
 ---
-
 如有任何部署问题或需要进一步的帮助，请参考 [Cloudflare Pages 文档](https://developers.cloudflare.com/pages/) 或联系 Cloudflare 支持。

@@ -6,15 +6,17 @@ compatibility_date = "2025-03-16"
 # Pages 特定配置
 [build]
 command = "npm run build"
-[build.upload]
-format = "service-worker"
-
-# Pages 构建输出目录 - 这是关键配置
+output_directory = ".next"
 pages_build_output_dir = ".next"
+pages_build_output_dir=".next"
+
 
 # 环境变量配置
-[vars]
-APP_ENV = "production"
+[site]
+bucket = ".next"
+
+[env.production]
+vars = { APP_ENV = "production" }
 
 # 兼容性标志
 [compatibility_flags]
