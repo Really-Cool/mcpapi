@@ -53,6 +53,7 @@ export function MCPSection({
         {visibleItems.map((item) => (
           <MCPCard
             key={item.id}
+            id={item.id} 
             title={item.title}
             packageName={item.packageName}
             description={item.description}

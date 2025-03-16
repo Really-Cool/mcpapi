@@ -5,6 +5,7 @@ import { getTheme } from "@/utils/constants/theme";
 import { Star } from "lucide-react";
 import { MCPItem } from "@/types/mcp";
 import { useMCPItems } from '@/hooks/mcp/use-mcp-items';
+import { useRouter } from 'next/navigation';
 
 export interface MCPCardProps {
   id?: string;
@@ -37,6 +38,7 @@ export function MCPCard({
 }: MCPCardProps) {
   // Use our custom hook for favorites and tracking
   const { isFavorite, toggleFavorite, trackItemView, darkMode } = useMCPItems();
+  const router = useRouter();
   
   // Get the current theme based on dark mode state
   const currentTheme = useMemo(() => 
@@ -80,33 +82,6 @@ export function MCPCard({
     toggleFavorite(item);
   };
   
-  // Handle card click
-  const handleCardClick = () => {
-    if (onCardClick) {
-      onCardClick();
-    }
-    
-    // Add to recently viewed if id exists
-    if (id) {
-      // Create a valid MCPItem object with required fields
-      const item: MCPItem = {
-        id,
-        title,
-        description,
-        // Provide default values for required fields that might be undefined
-        packageName: packageName || "",
-        downloads: downloads || "0",
-        // Optional fields
-        icon,
-        iconName,
-        isActive,
-        githubLink
-      };
-      
-      trackItemView(item);
-    }
-  };
-
   // Extract the creation of MCPItem to a helper function to avoid duplication
   const createMCPItem = (): MCPItem => ({
     id: id || crypto.randomUUID(), // Generate a random ID if not provided
@@ -120,6 +95,37 @@ export function MCPCard({
     githubLink
   });
 
+  // Handle card click with navigation to detail page
+  const handleCardClick = () => {
+    // Log for debugging
+    console.log(`MCPCard clicked: ${id}`);
+    
+    if (id) {
+      const item = createMCPItem();
+      
+      // Track item view in user's history
+      trackItemView(item);
+      
+      // Navigate to detail page - Using direct window location for reliable navigation
+      // during development to ensure the navigation works
+      console.log(`Navigating to /mcp/${id}`);
+      
+      // Try both methods of navigation for better compatibility
+      try {
+        router.push(`/mcp/${id}`);
+      } catch (error) {
+        console.error("Navigation error with router:", error);
+        // Fallback to window.location
+        window.location.href = `/mcp/${id}`;
+      }
+    }
+    
+    // Still call the original onCardClick if provided
+    if (onCardClick) {
+      onCardClick();
+    }
+  };
+  
   // Get border color based on favorite status
   const borderColor = isItemFavorite 
     ? currentTheme.colors.status.active 
@@ -133,10 +139,7 @@ export function MCPCard({
         borderColor: borderColor,
         color: currentTheme.colors.text.primary
       }}
-      onClick={() => {
-        handleCardClick();
-        if (id) trackItemView(createMCPItem());
-      }}
+      onClick={handleCardClick}
       role="article"
       aria-label={`${title} package`}
       tabIndex={0}
