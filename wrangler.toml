@@ -6,7 +6,7 @@ compatibility_date = "2025-03-16"
 # Pages 特定配置
 [build]
 command = "npm run build"
-pages_build_output_dir=".next"
+output_directory= ".next"
 
 [build.upload]
 format = "directory"
