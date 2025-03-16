@@ -2,22 +2,7 @@
 
 name = "mcpapi"
 compatibility_date = "2025-03-16"
-pages_build_output_dir=".next"
-
-# Pages 特定配置
-[build]
-command = "npm run build"
-
-
-[build.upload]
-format = "directory"
-include = [".next/**/*"]
-exclude = [
-  ".next/cache/**",
-  ".next/server/chunks/**/*.js.map",
-  ".next/server/pages/**/*.js.map",
-  ".next/cache/webpack/**"
-]
+pages_build_output_dir = ".next"
 
 [env.production]
 vars = { APP_ENV = "production" }
