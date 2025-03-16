@@ -43,7 +43,7 @@ export function Header({ showGithub = true }: HeaderProps) {
       <div className="flex items-center space-x-4">
         {/* TODO YUQUE */}
         <Link 
-          href="https://xiaohui.cool/Farming-in-the-cyber-world" 
+          href="https://yuque.antfin.com/qtglgq/iyhwc1/quiaolo5c2d878ie?singleDoc# " 
           className="flex items-center gap-1 px-3 py-1 rounded transition-colors"
           style={{ 
             backgroundColor: currentTheme.colors.background.secondary,
