@@ -204,34 +204,89 @@ npm ERR! peer date-fns@"^2.28.0 || ^3.0.0" from react-day-picker@8.10.1
 2. 重新安装依赖：`npm install`
 3. 重新构建项目：`npm run build`
 
+### React 19 兼容性问题
+
+如果遇到类似以下的 React 19 兼容性错误：
+
+```
+npm ERR! code ERESOLVE
+npm ERR! ERESOLVE could not resolve
+npm ERR! 
+npm ERR! While resolving: react-day-picker@8.10.1
+npm ERR! Found: react@19.0.0
+npm ERR! node_modules/react
+npm ERR!   react@"^19" from the root project
+npm ERR! 
+npm ERR! Could not resolve dependency:
+npm ERR! peer react@">=16.8.0" from @floating-ui/react-dom@2.1.2
+```
+
+或者：
+
+```
+npm ERR! code ERESOLVE
+npm ERR! ERESOLVE could not resolve
+npm ERR! 
+npm ERR! While resolving: vaul@0.9.9
+npm ERR! Found: react@19.0.0
+npm ERR! node_modules/react
+npm ERR!   react@"^19" from the root project
+npm ERR! 
+npm ERR! Could not resolve dependency:
+npm ERR! peer react@"^16.8 || ^17.0 || ^18.0" from vaul@0.9.9
+```
+
+解决方法：
+
+1. **移除不兼容的组件库**：
+   - 从 `package.json` 中移除 `react-day-picker` 和 `vaul` 等不兼容的依赖
+   - 创建简化版的组件替代原有组件，保持 API 兼容性
+   - 重新安装依赖：`npm install`
+   - 重新构建项目：`npm run build`
+
+2. **降级 React**：
+   - 如果组件是必需的，可以考虑将 React 降级到 18.x 版本
+   - 在 `package.json` 中将 `react` 和 `react-dom` 的版本从 `^19` 改为 `^18`
+   - 重新安装依赖：`npm install`
+
+3. **使用兼容性标志**：
+   - 尝试使用 `--force` 或 `--legacy-peer-deps` 标志强制安装
+   - 例如：`npm install --legacy-peer-deps`
+   - 注意：这可能导致运行时错误，不推荐用于生产环境
+
+4. **寻找替代方案**：
+   - 寻找与 React 19 兼容的替代组件库
+   - 自行实现必要的组件功能
+
 ### Wrangler 配置问题
 
-如果遇到 "No wrangler.toml file found" 错误，请确保在项目根目录创建了 `wrangler.toml` 文件，内容如下：
+如果遇到 "No wrangler.toml file found" 或 "wrangler.toml file was found but it does not appear to be valid" 错误，请确保在项目根目录创建了正确的 `wrangler.toml` 文件，内容如下：
 
 ```toml
 # Wrangler 配置文件 - Cloudflare Pages 部署配置
 
 name = "mcpapi"
-compatibility_date = "2023-10-30"
+compatibility_date = "2025-03-16"
 
-# 构建配置
+# Pages 特定配置
 [build]
 command = "npm run build"
-output_directory = ".next"
+[build.upload]
+format = "service-worker"
+
+# Pages 构建输出目录 - 这是关键配置
+pages_build_output_dir = ".next"
 
 # 环境变量配置
 [vars]
 APP_ENV = "production"
 
-# 路由配置
-[routes]
-pattern = "/*"
-script = "index.js"
-
 # 兼容性标志
 [compatibility_flags]
 nodejs_compat = true
 ```
+
+注意：`pages_build_output_dir` 是 Cloudflare Pages 部署所必需的配置项。
 
 ---
 
