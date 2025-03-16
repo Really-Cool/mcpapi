@@ -11,6 +11,7 @@ interface RecommendationsSectionProps {
   recommendations: MCPItem[];
   title?: string;
   explanation?: string;
+  clearButton?: React.ReactNode;
 }
 
 /**
@@ -21,6 +22,7 @@ export function RecommendationsSection({
   recommendations,
   title = '推荐',
   explanation,
+  clearButton,
 }: RecommendationsSectionProps) {
   // Don't render if there are no recommendations
   if (!recommendations.length) {
@@ -37,13 +39,16 @@ export function RecommendationsSection({
 
   return (
     <section className="mb-8">
-      <SectionHeader
-        title={title}
-        icon={<Sparkles size={18} style={{ color: currentTheme.colors.text.accent }} />}
-      />
+      <div className="flex justify-between items-center mb-4">
+        <SectionHeader
+          title={title}
+          icon={<Sparkles size={18} style={{ color: currentTheme.colors.text.accent }} />}
+        />
+        {clearButton}
+      </div>
 
-      <p>{explanation}</p>
-      <br></br>
+      {explanation && <p className="mb-4">{explanation}</p>}
+      
       <SectionGrid>
         {memoizedRecommendations.map((item) => (
           <MCPCard

@@ -90,22 +90,6 @@ export function SearchResults({
 
   return (
     <div className="my-8">
-      <div className="flex justify-between items-center mb-6">
-        {onReset && (
-          <button 
-            onClick={onReset}
-            className="flex items-center gap-1 px-3 py-1 rounded transition-colors"
-            style={{ 
-              backgroundColor: currentTheme.colors.background.secondary,
-              color: currentTheme.colors.text.secondary
-            }}
-            aria-label="清除搜索结果"
-          >
-            <X size={16} />
-            <span>清除</span>
-          </button>
-        )}
-      </div>
       
       {/* Use the RecommendationsSection component for recommendations */}
       {recommendations.length > 0 && (
@@ -113,16 +97,33 @@ export function SearchResults({
           recommendations={recommendations}
           title="推荐"
           explanation={explanation}
+          clearButton={
+            onReset && (
+              <button 
+                onClick={onReset}
+                className="flex items-center gap-1 px-3 py-1 rounded transition-colors"
+                style={{ 
+                  backgroundColor: currentTheme.colors.background.secondary,
+                  color: currentTheme.colors.text.secondary
+                }}
+                aria-label="清除搜索结果"
+              >
+                <X size={16} />
+                <span>清除</span>
+              </button>
+            )
+          }
         />
       )}
 
       {results.length > 0 && (
         <section className="mb-8">
           <h3 
-            className="text-lg font-semibold mb-4" 
+            className="text-lg font-semibold mb-4 flex items-center gap-2" 
             style={{ color: currentTheme.colors.text.primary }}
           >
-            <Search size={20} style={{ color: currentTheme.colors.text.accent }} > 搜索结果</Search>
+            <Search size={20} style={{ color: currentTheme.colors.text.accent }} />
+            <span>搜索结果</span>
           </h3>
           <SectionGrid>
             {results.map((item) => (
