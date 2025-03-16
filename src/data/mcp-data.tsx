@@ -67,7 +67,7 @@ export const mcpSections: MCPSection[] = [
   {
     id: "web-development",
     title: "网页开发",
-    count: 174,
+    count: 5,
     items: [
       {
         id: "osp-marketing",
@@ -126,7 +126,7 @@ export const mcpSections: MCPSection[] = [
   {
     id: "google-workspace",
     title: "Google 生态",
-    count: 48,
+    count: 5,
     items: [
       {
         id: "google-workspace-integration",
@@ -185,7 +185,7 @@ export const mcpSections: MCPSection[] = [
   {
     id: "protocol-integration",
     title: "专注于连接",
-    count: 119,
+    count: 5,
     items: [
       {
         id: "model-context-protocol",

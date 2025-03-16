@@ -61,7 +61,7 @@ export function SectionHeader({
         )}
       </div>
       <div className="flex items-center gap-2">
-        {showViewAll && (
+        {/* {showViewAll && (
           <Link 
             href={viewAllHref} 
             className="text-sm hover:underline"
@@ -70,7 +70,7 @@ export function SectionHeader({
           >
             查看全部
           </Link>
-        )}
+        )} */}
         {showNavigation && (
           <div className="flex gap-1">
             <button 
