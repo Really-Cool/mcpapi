@@ -7,7 +7,6 @@ pages_build_output_dir=".next"
 # Pages 特定配置
 [build]
 command = "npm run build"
-output_directory=".next"
 
 
 [build.upload]
@@ -20,13 +19,5 @@ exclude = [
   ".next/cache/webpack/**"
 ]
 
-# 环境变量配置
-[site]
-bucket = ".next"
-
 [env.production]
 vars = { APP_ENV = "production" }
-
-# 兼容性标志
-[compatibility_flags]
-nodejs_compat = true
