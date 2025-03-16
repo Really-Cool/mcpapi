@@ -1,5 +1,4 @@
 import { MCPItem } from '@/types/mcp';
-import { ReactNode } from 'react';
 
 
 /**

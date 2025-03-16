@@ -1,0 +1,25 @@
+# Wrangler 配置文件 - Cloudflare Pages 部署配置
+
+name = "mcpapi"
+compatibility_date = "2025-03-16"
+
+# 构建配置
+[build]
+command = "npm run build"
+output_directory = ".next"
+
+# 环境变量配置
+[vars]
+APP_ENV = "production"
+
+# 路由配置
+[routes]
+pattern = "/*"
+script = "index.js"
+
+# 兼容性标志
+[compatibility_flags]
+nodejs_compat = true
+
+# 自定义域名 - 在 Cloudflare Dashboard 中配置
+# custom_domain = "mcpapi.net"

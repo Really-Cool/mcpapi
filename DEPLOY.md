@@ -11,6 +11,7 @@
 5. [持续集成/持续部署 (CI/CD)](#持续集成持续部署-cicd)
 6. [监控与维护](#监控与维护)
 7. [常见问题解答](#常见问题解答)
+8. [故障排除](#故障排除)
 
 ## 准备工作
 
@@ -178,6 +179,59 @@ Cloudflare Pages 自动提供 CI/CD 功能：
 
 1. 在 Cloudflare Dashboard 中，导航到 **分析** > **Web 分析**
 2. 查看请求、带宽和错误统计信息
+
+## 故障排除
+
+### 依赖冲突问题
+
+如果遇到类似以下的依赖冲突错误：
+
+```
+npm ERR! code ERESOLVE
+npm ERR! ERESOLVE could not resolve
+npm ERR! 
+npm ERR! While resolving: react-day-picker@8.10.1
+npm ERR! Found: date-fns@4.1.0
+npm ERR! node_modules/date-fns
+npm ERR!   date-fns@"4.1.0" from the root project
+npm ERR! 
+npm ERR! Could not resolve dependency:
+npm ERR! peer date-fns@"^2.28.0 || ^3.0.0" from react-day-picker@8.10.1
+```
+
+解决方法：
+1. 在 `package.json` 中将 `date-fns` 的版本从 `4.1.0` 降级到 `3.0.0`
+2. 重新安装依赖：`npm install`
+3. 重新构建项目：`npm run build`
+
+### Wrangler 配置问题
+
+如果遇到 "No wrangler.toml file found" 错误，请确保在项目根目录创建了 `wrangler.toml` 文件，内容如下：
+
+```toml
+# Wrangler 配置文件 - Cloudflare Pages 部署配置
+
+name = "mcpapi"
+compatibility_date = "2023-10-30"
+
+# 构建配置
+[build]
+command = "npm run build"
+output_directory = ".next"
+
+# 环境变量配置
+[vars]
+APP_ENV = "production"
+
+# 路由配置
+[routes]
+pattern = "/*"
+script = "index.js"
+
+# 兼容性标志
+[compatibility_flags]
+nodejs_compat = true
+```
 
 ---
 

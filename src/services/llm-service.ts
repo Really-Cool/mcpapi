@@ -1,4 +1,4 @@
-import { MCPItemForRecommend } from '../mcp/utils';
+import { MCPItemForRecommend } from '@/app/api/mcp/utils';
 import OpenAI from 'openai';
 
 // 定义LLM推荐响应接口

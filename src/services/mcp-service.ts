@@ -1,6 +1,6 @@
 import { mcpSections } from '@/data/mcp-data';
 import { MCPItem } from '@/types/mcp';
-import { MCPItemForRecommend} from '../mcp/utils';
+import { MCPItemForRecommend} from '@/app/api/mcp/utils';
 
 /**
  * MCP服务 - 处理MCP数据的查询和过滤
