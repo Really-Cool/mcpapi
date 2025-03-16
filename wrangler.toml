@@ -3,6 +3,3 @@
 name = "mcpapi"
 compatibility_date = "2025-03-16"
 pages_build_output_dir = ".next"
-
-[env.production]
-vars = { APP_ENV = "production" }

@@ -10,6 +10,7 @@ const nextConfig = {
   // 配置图像优化
   images: {
     domains: [],
+    unoptimized: true, // 在 Cloudflare Pages 上禁用图像优化
   },
   // 配置环境变量
   env: {
@@ -17,6 +18,8 @@ const nextConfig = {
   },
   // 优化构建输出
   output: 'standalone',
+  // 确保正确处理路径
+  trailingSlash: true,
   // 配置 webpack
   webpack: (config, { dev, isServer }) => {
     // 仅在生产环境中应用优化
