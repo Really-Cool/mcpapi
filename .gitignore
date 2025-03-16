@@ -31,3 +31,6 @@ next-env.d.ts
 
 # coverage
 coverage
+
+# wrangler
+wrangler.toml
