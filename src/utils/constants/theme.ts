@@ -10,6 +10,7 @@ export type ThemeMode = 'light' | 'dark';
 const palette = {
   // Neutral colors
   neutral: {
+    10: '#ffffff',
     50: '#fafafa',
     100: '#f5f5f5',
     200: '#e5e5e5',
@@ -48,6 +49,13 @@ const palette = {
     500: '#3b82f6',
     600: '#2563eb',
   },
+  black:{
+    500: '#000000',
+    600: '#171717',
+    700: '#262626',
+    800: '#404040',
+    900: '#737373',
+  }
 };
 
 // Theme configuration for both light and dark modes
@@ -55,7 +63,7 @@ export const themeConfig = {
   light: {
     background: {
       primary: palette.neutral[50],
-      secondary: palette.neutral[100],
+      secondary: palette.neutral[10],
       hover: palette.neutral[200],
       light: palette.neutral[50],
       dark: palette.neutral[900],
@@ -82,7 +90,7 @@ export const themeConfig = {
   dark: {
     background: {
       primary: palette.neutral[900],
-      secondary: palette.neutral[800],
+      secondary: palette.black[500],
       hover: palette.neutral[700],
       light: palette.neutral[50],
       dark: palette.neutral[900],

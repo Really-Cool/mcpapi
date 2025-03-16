@@ -41,44 +41,26 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   
   // Apply theme styles to the document body when dark mode changes
   useEffect(() => {
-    // Get the document body
+    // Get the document body and html element
     const body = document.body;
+    const html = document.documentElement;
+    
+    // Apply dark class to html element for tailwind dark mode
+    if (darkMode) {
+      html.classList.add('dark');
+    } else {
+      html.classList.remove('dark');
+    }
     
     // Get the appropriate theme based on dark mode
     const currentTheme = getTheme(darkMode ? 'dark' : 'light');
     
-    // Set background color based on theme
-    body.style.backgroundColor = currentTheme.colors.background.primary;
-    
-    // Set text color based on theme
-    body.style.color = currentTheme.colors.text.primary;
-    
     // Apply theme class
     applyThemeClass(darkMode);
     
-    // Set CSS variables for theme colors to use throughout the app
-    Object.entries(currentTheme.colors).forEach(([category, values]) => {
-      Object.entries(values as Record<string, string>).forEach(([name, value]) => {
-        document.documentElement.style.setProperty(
-          `--color-${category}-${name}`,
-          value
-        );
-      });
-    });
-    
     // Clean up function to reset styles when component unmounts
     return () => {
-      body.style.backgroundColor = '';
-      body.style.color = '';
-      
-      // Remove CSS variables
-      Object.entries(currentTheme.colors).forEach(([category, values]) => {
-        Object.entries(values as Record<string, string>).forEach(([name]) => {
-          document.documentElement.style.removeProperty(
-            `--color-${category}-${name}`
-          );
-        });
-      });
+      html.classList.remove('dark');
     };
   }, [darkMode]);
   

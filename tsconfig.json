@@ -29,7 +29,8 @@
       "@contexts/*": ["./src/contexts/*"],
       "@data/*": ["./src/data/*"],
       "@tests/*": ["./tests/*"],
-      "@app/*": ["./src/app/*"]
+      "@app/*": ["./src/app/*"],
+      "@styles/*": ["./src/styles/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

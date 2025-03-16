@@ -91,12 +91,6 @@ export function SearchResults({
   return (
     <div className="my-8">
       <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-2">
-          <Search size={20} style={{ color: currentTheme.colors.text.accent }} />
-          <h2 className="text-xl font-semibold" style={{ color: currentTheme.colors.text.primary }}>
-            {query ? `"${query}" 的搜索结果` : "搜索结果"}
-          </h2>
-        </div>
         {onReset && (
           <button 
             onClick={onReset}
@@ -117,7 +111,7 @@ export function SearchResults({
       {recommendations.length > 0 && (
         <RecommendationsSection
           recommendations={recommendations}
-          title="推荐的MCP服务器"
+          title="推荐"
           explanation={explanation}
         />
       )}
@@ -128,7 +122,7 @@ export function SearchResults({
             className="text-lg font-semibold mb-4" 
             style={{ color: currentTheme.colors.text.primary }}
           >
-            搜索结果
+            <Search size={20} style={{ color: currentTheme.colors.text.accent }} > 搜索结果</Search>
           </h3>
           <SectionGrid>
             {results.map((item) => (

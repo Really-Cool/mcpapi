@@ -1,5 +1,5 @@
 import type React from "react"
-import "./globals.css"
+import "@/styles/globals.css"
 import { Inter } from "next/font/google"
 import type { Metadata } from "next"
 
@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "MCPapi - Model Context Protocol",
   description: "Extend your agent with Model Context Protocol servers",
-    generator: 'v0.dev'
+  generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -22,7 +22,3 @@ export default function RootLayout({
     </html>
   )
 }
-
-
-
-import './globals.css'

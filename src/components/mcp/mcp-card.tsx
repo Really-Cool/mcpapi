@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ReactNode, useMemo } from "react";
 import { IconService } from "@/services/icon-service";
 import { getTheme } from "@/utils/constants/theme";
-import { Star, ExternalLink, Github } from "lucide-react";
+import { Star } from "lucide-react";
 import { MCPItem } from "@/types/mcp";
 import { useMCPItems } from '@/hooks/mcp/use-mcp-items';
 
@@ -180,9 +180,7 @@ export function MCPCard({
             rel="noopener noreferrer"
             aria-label={`View ${packageName || ''} on GitHub`}
           >
-            <Github size={12} />
             <span>{packageName}</span>
-            <ExternalLink size={10} />
           </Link>
         ) : (
           packageName && <span style={{ color: currentTheme.colors.text.secondary }}>{packageName}</span>

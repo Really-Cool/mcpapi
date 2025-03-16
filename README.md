@@ -53,6 +53,8 @@ mcpapi/
 │   │   │   └── theme.ts
 │   │   └── helpers/               # 辅助函数
 │   │       └── theme-utils.ts
+│   ├── styles/                    # 样式
+│   │   └── globals.css
 │   ├── types/                     # 类型定义
 │   │   ├── api.ts                 # API 相关类型
 │   │   ├── mcp.ts                 # MCP 相关类型
@@ -71,7 +73,6 @@ mcpapi/
 │       ├── jest.config.js
 │       ├── jest.setup.js
 │       └── babel.config.jest.js
-├── styles/                        # 全局样式
 ├── .next/                         # Next.js 构建输出
 ├── node_modules/                  # 依赖
 ├── package.json                   # 项目配置

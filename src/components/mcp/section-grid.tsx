@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { theme } from "@/utils/constants/theme";
 
 export interface SectionGridProps {
   children: ReactNode;
@@ -15,6 +14,8 @@ export interface SectionGridProps {
 /**
  * SectionGrid component provides a responsive grid layout for displaying content
  * It adapts to different screen sizes with customizable column counts
+ * Tailwind CSS 的工作原理是在构建时静态分析代码中所有可能使用的类名，然后只生成那些被使用的类的样式。当我们使用模板字符串动态生成类名（如 grid-cols-${sm}）时，Tailwind 无法在构建时识别这些类名
+ * 
  * 
  * @param children - The grid items to display
  * @param columns - Optional object to specify column counts for different breakpoints
@@ -23,45 +24,65 @@ export interface SectionGridProps {
  */
 export function SectionGrid({ 
   children, 
-  columns = { sm: 1, md: 2, lg: 5 },
+  columns = { sm: 1, md: 2, lg: 4 },
   gap = 4,
   className = ""
 }: SectionGridProps) {
   // Get column values with defaults
-  const { sm = 1, md = 2, lg = 5 } = columns;
+  const { sm = 1, md = 2, lg = 4 } = columns;
   
   // Create grid classes based on column configuration
-  // Using fixed classes instead of template literals for Tailwind compatibility
-  let gridColsClass = "grid-cols-1";
-  let mdGridColsClass = "md:grid-cols-2";
-  let lgGridColsClass = "lg:grid-cols-5";
+  // Using fixed classes for Tailwind compatibility
+  const getGridColsClass = (cols: number) => {
+    switch (cols) {
+      case 1: return "grid-cols-1";
+      case 2: return "grid-cols-2";
+      case 3: return "grid-cols-3";
+      case 4: return "grid-cols-4";
+      case 5: return "grid-cols-5";
+      case 6: return "grid-cols-6";
+      default: return "grid-cols-1";
+    }
+  };
   
-  // Set small screen columns
-  if (sm === 2) gridColsClass = "grid-cols-2";
-  if (sm === 3) gridColsClass = "grid-cols-3";
-  if (sm === 4) gridColsClass = "grid-cols-4";
-  if (sm === 5) gridColsClass = "grid-cols-5";
-  if (sm === 6) gridColsClass = "grid-cols-6";
+  const getMdGridColsClass = (cols: number) => {
+    switch (cols) {
+      case 1: return "md:grid-cols-1";
+      case 2: return "md:grid-cols-2";
+      case 3: return "md:grid-cols-3";
+      case 4: return "md:grid-cols-4";
+      case 5: return "md:grid-cols-5";
+      case 6: return "md:grid-cols-6";
+      default: return "md:grid-cols-2";
+    }
+  };
   
-  // Set medium screen columns
-  if (md === 1) mdGridColsClass = "md:grid-cols-1";
-  if (md === 3) mdGridColsClass = "md:grid-cols-3";
-  if (md === 4) mdGridColsClass = "md:grid-cols-4";
-  if (md === 5) mdGridColsClass = "md:grid-cols-5";
-  if (md === 6) mdGridColsClass = "md:grid-cols-6";
+  const getLgGridColsClass = (cols: number) => {
+    switch (cols) {
+      case 1: return "lg:grid-cols-1";
+      case 2: return "lg:grid-cols-2";
+      case 3: return "lg:grid-cols-3";
+      case 4: return "lg:grid-cols-4";
+      case 5: return "lg:grid-cols-5";
+      case 6: return "lg:grid-cols-6";
+      default: return "lg:grid-cols-4";
+    }
+  };
   
-  // Set large screen columns
-  if (lg === 1) lgGridColsClass = "lg:grid-cols-1";
-  if (lg === 2) lgGridColsClass = "lg:grid-cols-2";
-  if (lg === 3) lgGridColsClass = "lg:grid-cols-3";
-  if (lg === 4) lgGridColsClass = "lg:grid-cols-4";
-  if (lg === 6) lgGridColsClass = "lg:grid-cols-6";
+  const getGapClass = (gapSize: number) => {
+    switch (gapSize) {
+      case 2: return "gap-2";
+      case 4: return "gap-4";
+      case 6: return "gap-6";
+      case 8: return "gap-8";
+      default: return "gap-4";
+    }
+  };
   
-  // Set gap class
-  let gapClass = "gap-4";
-  if (gap === 2) gapClass = "gap-2";
-  if (gap === 6) gapClass = "gap-6";
-  if (gap === 8) gapClass = "gap-8";
+  const gridColsClass = getGridColsClass(sm);
+  const mdGridColsClass = getMdGridColsClass(md);
+  const lgGridColsClass = getLgGridColsClass(lg);
+  const gapClass = getGapClass(gap);
   
   return (
     <div 
